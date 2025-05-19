@@ -2,61 +2,100 @@ package org.arpha.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties(prefix = "dataflow.consumer")
+@ConfigurationProperties(prefix = "dataflow")
 public class DataflowConsumerProperties {
 
-    /**
-     * The host of the dataflow cluster.
-     */
-    private String clusterHost;
+    private ClusterProperties broker;
+    private ConsumerProperties consumer;
 
-    /**
-     * The port of the dataflow cluster.
-     */
-    private int clusterPort;
+    public static class ConsumerProperties {
 
-    /**
-     * The default consumer group to use if not specified in @DataflowConsumer.
-     */
-    private String defaultConsumerGroup;
+        private String defaultConsumerGroup;
+        private int maxPollMessages = 10;
 
-    /**
-     * Maximum number of messages to poll at once.
-     * (This property was in your ConsumerMessage.java, including it here for consistency
-     * although your GenericConsumerClient doesn't seem to use it directly for poll construction.
-     * You might want to integrate it into GenericConsumerClient.ConsumerConfiguration if needed)
-     */
-    private int maxPollMessages = 10; // Example default
+        public String getDefaultConsumerGroup() {
+            return defaultConsumerGroup;
+        }
+
+        public void setDefaultConsumerGroup(String defaultConsumerGroup) {
+            this.defaultConsumerGroup = defaultConsumerGroup;
+        }
+
+        public int getMaxPollMessages() {
+            return maxPollMessages;
+        }
+
+        public void setMaxPollMessages(int maxPollMessages) {
+            this.maxPollMessages = maxPollMessages;
+        }
+    }
+
+    public static class ClusterProperties {
+        private String host;
+        private int port;
+
+        public String getHost() {
+            return host;
+        }
+
+        public void setHost(String host) {
+            this.host = host;
+        }
+
+        public int getPort() {
+            return port;
+        }
+
+        public void setPort(int port) {
+            this.port = port;
+        }
+    }
+
+    public ClusterProperties getBroker() {
+        return broker;
+    }
+
+    public void setBroker(ClusterProperties broker) {
+        this.broker = broker;
+    }
+
+    public ConsumerProperties getConsumer() {
+        return consumer;
+    }
+
+    public void setConsumer(ConsumerProperties consumer) {
+        this.consumer = consumer;
+    }
 
     public String getClusterHost() {
-        return clusterHost;
+        return broker.getHost();
     }
 
     public void setClusterHost(String clusterHost) {
-        this.clusterHost = clusterHost;
+        this.broker.setHost(clusterHost);
     }
 
     public int getClusterPort() {
-        return clusterPort;
+        return broker.getPort();
     }
 
     public void setClusterPort(int clusterPort) {
-        this.clusterPort = clusterPort;
+        this.broker.setPort(clusterPort);
     }
 
     public String getDefaultConsumerGroup() {
-        return defaultConsumerGroup;
+        return consumer.defaultConsumerGroup;
     }
 
     public void setDefaultConsumerGroup(String defaultConsumerGroup) {
-        this.defaultConsumerGroup = defaultConsumerGroup;
+        consumer.setDefaultConsumerGroup(defaultConsumerGroup);
     }
 
     public int getMaxPollMessages() {
-        return maxPollMessages;
+        return consumer.getMaxPollMessages();
     }
 
     public void setMaxPollMessages(int maxPollMessages) {
-        this.maxPollMessages = maxPollMessages;
+        consumer.setMaxPollMessages(maxPollMessages);
     }
 }
