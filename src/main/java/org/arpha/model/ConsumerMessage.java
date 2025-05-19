@@ -1,4 +1,6 @@
-package org.arpha;
+package org.arpha.model;
+
+import org.arpha.common.ConsumerMessageType;
 
 public class ConsumerMessage {
 

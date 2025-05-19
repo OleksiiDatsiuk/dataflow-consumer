@@ -17,6 +17,11 @@ import io.netty.handler.codec.LineBasedFrameDecoder;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import io.netty.util.CharsetUtil;
+import org.arpha.common.ConsumerMessageType;
+import org.arpha.common.MessageType;
+import org.arpha.model.BrokerPollResponse;
+import org.arpha.model.ConsumerMessage;
+import org.arpha.model.Message;
 
 import java.util.UUID;
 import java.util.concurrent.Executors;

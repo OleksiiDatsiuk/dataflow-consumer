@@ -1,4 +1,4 @@
-package org.arpha;
+package org.arpha.model;
 
 public class BrokerPollResponse {
     private int partition;

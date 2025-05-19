@@ -1,4 +1,4 @@
-package org.arpha;
+package org.arpha.common;
 
 public enum MessageType {
 
