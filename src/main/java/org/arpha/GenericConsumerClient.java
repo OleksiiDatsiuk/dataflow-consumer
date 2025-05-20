@@ -163,8 +163,8 @@ public class GenericConsumerClient<T> {
             ConsumerMessage msg = config.createMessage(ConsumerMessageType.COMMIT);
             msg.setOffset(config.getCommitOffset());
             msg.setPartition(config.getCurrentPartition());
-            System.out.println("Consumer " + config.consumerId() + ": Sending COMMIT for topic " + config.topic() +
-                    ", partition " + msg.getPartition() + ", offset " + msg.getOffset());
+//            System.out.println("Consumer " + config.consumerId() + ": Sending COMMIT for topic " + config.topic() +
+//                    ", partition " + msg.getPartition() + ", offset " + msg.getOffset());
             channel.writeAndFlush(new Message(MessageType.CONSUMER, config.topic(), mapper.writeValueAsString(msg)).serialize() + "\n");
         } catch (Exception e) {
             System.err.println("Consumer " + config.consumerId() + ": Failed to send commit: " + e.getMessage());
@@ -215,7 +215,7 @@ public class GenericConsumerClient<T> {
         }
         System.out.println("Consumer " + config.consumerId() + ": Initializing scheduled tasks (Heartbeat @5s, Poll @2s).");
         scheduler.scheduleAtFixedRate(this::sendHeartbeat, 0, 5, TimeUnit.SECONDS);
-        scheduler.scheduleAtFixedRate(this::sendPoll, 1, 2, TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(this::sendPoll, 1, 100000, TimeUnit.NANOSECONDS);
     }
 
     @ChannelHandler.Sharable
@@ -256,8 +256,8 @@ public class GenericConsumerClient<T> {
 
             if (brokerResponse.hasPayload()) {
                 String messagePayload = brokerResponse.getMessage();
-                System.out.println("Consumer " + config.consumerId() + ": Received message for partition " + brokerResponse.getPartition() +
-                        " at offset " + brokerResponse.getOffset() + ". Payload: " + messagePayload.substring(0, Math.min(messagePayload.length(), 50)) + "...");
+//                System.out.println("Consumer " + config.consumerId() + ": Received message for partition " + brokerResponse.getPartition() +
+//                        " at offset " + brokerResponse.getOffset() + ". Payload: " + messagePayload.substring(0, Math.min(messagePayload.length(), 50)) + "...");
                 Object parsed;
 
                 if (config.clazz().equals(String.class)) {
